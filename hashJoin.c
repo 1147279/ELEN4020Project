@@ -4,6 +4,7 @@
 #include "mpi.h"
 int NumofProc = 26;
 
+
 int hashGen(char key) {
 	if (key == 'A')
 	{
@@ -145,49 +146,52 @@ char **argv;
 	
  	int bucket;
 	
-		if (myrank ==0)
-		{
-			while ((read = getline(&line, &len, A)) != -1) {
-			//printf("%c \n", read);
-			//printf("%c\n", line[0]);
-			bucket = hashGen(line[0]);
-			//printf("%d\n", bucket);
-								
+	int row,col;
+	row = 6;
+	col = 2;
+	int count = 0;
+	char *hashTable = (char *)malloc(row*col*sizeof(char));
 
-			sprintf(msg, "%c|%c\n", line[0], line[2]);
-			dest = bucket;
-			MPI_Send(msg, strlen(msg)+1, MPI_CHAR, dest, tag, MPI_COMM_WORLD);
-			}	
-		}else
-		{
-			MPI_Recv(msg2, 10, MPI_CHAR, 0, tag, MPI_COMM_WORLD,&status);
-			printf("From rank %d =     %s\n",myrank, msg2);		
-			//mybucket[strlen(mybucket)] = msg2;
-		}
+
+		
+			while ((read = getline(&line, &len, A)) != -1) {
+				if (myrank ==0)
+				{
+					bucket = hashGen(line[0]);
+			
+					sprintf(msg, "%c|%c\n", line[0], line[2]);
+					dest = bucket%(Npes-1)+1;
+					MPI_Send(msg, strlen(msg)+1, MPI_CHAR, dest, tag, MPI_COMM_WORLD);
+				}else
+				{	
+
+			
+					MPI_Recv(msg2, 10, MPI_CHAR, 0, tag, MPI_COMM_WORLD,&status);
+					printf("From rank %d =     %s\n",myrank, msg2);		
+					hashTable[row*count+0] = msg2[0];
+					hashTable[row*count+1] = msg[2];
+					count++;
+				}
+			}
 
 	
+			for (int i = 0 ;i< count ; i++)
+			{
+				for (int j =0;j<2;j++)
+				{
+					printf("From rank %d =     %s\n",myrank, hashTable[i*row+j]);		
+				}
+			}
+
+		
+		
+		
+		
+		
  	
-	//mybucket[strlen(mybucket)] = msg2;
-
-	/*if (myrank !=0)
-	{
-		sprintf(msg, "Greetings from %d", myrank);
-		dest = 0;
-		MPI_Send(msg, strlen(msg)+1, MPI_CHAR, dest, tag, MPI_COMM_WORLD);
-	}else
-	{
-		for (source = 1; source < Npes ; source++)
-		{
-			MPI_Recv(msg2, 100, MPI_CHAR, source, tag, MPI_COMM_WORLD,&status);
-			printf("%s\n", msg2);		
-		}	
-	}
-
-	MPI_Finalize();
-	*/
-	MPI_Finalize();
-	free(line);
-	fclose(A);
+		MPI_Finalize();
+		free(line);
+		fclose(A);
 	
 
 
