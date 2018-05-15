@@ -86,6 +86,26 @@ IN EACH SLAVE NODE:\\
 \end{algorithm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Description}\label{desc}
+Due to limited time constraints and late completion of the development of the hash-join and merge-join algorithms, the code could only be run on the authors’ local machines.
+
+The conditions of the experimental environment, where the join algorithms are run, are summarised in the list below:
+\begin{itemize}
+\item Processor: Intel Code i5-7200U CPU at 2.5 GHz.
+\item RAM: 4.00 GB
+\item Sockets: 1
+\item Core per Socket: 2
+\item Threads per Socket: 4
+\item CPU: 4
+\item Operating System: Ubuntu 17.10
+\item Message Passage Standard: MPICH-3.2.1
+\item Input File Type: Text file storing string key-value pairs, using a delimiter of $|$
+\item Input Test File Size Range: 104 – 164650 bytes
+\item Join Technique: Hash-Join and Merge-Join Algorithm
+\end{itemize}
+
+In order to run the tests and compare the results, three sets of varying-sized relational databases were created. Each set consists of two files, made of string key-value pairs, separated by the $|$ delimiter. 
+
+To perform the join on the two relational databases, the number of processes was varied in successive powers of 2, from 2 to 128 threads. The time it takes for each algorithm to perform the join was measured and recorded in Table \ref{tab:res} below.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis of Results}\label{ana}
@@ -146,12 +166,17 @@ IN EACH SLAVE NODE:\\
     128   & 114.329 \\
     \hline
     \end{tabular}%
-  \label{tab:addlabel}%
+  \label{tab:res}%
 \end{table}%
 
+From the specifications given above, it is clear that the physical infrastructure of the authors’ 
+machine could only support a maximum of four actual threads. As a result, any number of threads larger than four, are virtual threads; what this means, is that the computer will attempt to parallelize the operation, by allowing a virtual thread to run for a specified period of time within a certain window. Hence, for any number of threads greater than four, we can expect that the performance of the machine will be poorer.
+
+\subsection{Hash Join}
+From Table 1 below, it is clear that the author’s machine consistently had the best performance when four threads were used. This is consistent with the description above. Furthermore, it is clear from the results, that as the size of the input databases increased, so is there an increase in time to join the results. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}\label{conc}
-Join operations are one of the most important operations in the use of databases, however, the operations are expensive in terms of time and data-intensity. In an effort to find an efficient algorithm, two approaches were implemented and compared. The firsts approach uses OpenMP to perform a merge join on two large tables. The second performs a hash join using MPI as a basis for the code.
+Join operations are one of the most important operations in the use of databases, however, the operations are expensive in terms of time and data- intensity. In an effort to find an efficient algorithm, two parallel approaches were implemented and compared. The first approach uses OpenMP to perform a merge join on two large tables with its pragma directives while the second performs a hash join using MPI as a basis for the code. The MPI results show that when the amount of threads used is increased, so long as the number of threads is less than or equal to the number of actual threads that the infrastructure can support, the time taken to compute the join decreases significantly. However increasing the number of threads beyond this number results in a slowing down of the time taken to join. As the implementation of OpenMP was unable to generate results when the input file size was large it is clear that MPI is the superior method. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %REFERENCES
 \bibliographystyle{IEEETran}
