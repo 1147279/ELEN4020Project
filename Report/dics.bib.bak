@@ -1,0 +1,60 @@
+% Encoding: UTF-8
+
+@TechReport{heap,
+  author      = {Goetz Graefe},
+  title       = {Heap-Filter Merge Join: A New AlgorithmFor Joining Medium-Size Inputs},
+  institution = {IEEE TRANSACTIONS ON SOFlWARE ENGINEERING},
+  year        = {1991},
+  month       = sep,
+}
+
+@TechReport{wolf,
+  author      = {Joel L. Wolf and Daniel M. Dias and Philip S. Yu},
+  title       = {An Effective Algorithm for Parallelizing Sort Merge Joins in the Presence of Data Skew},
+  institution = {IBM Research Division. T. J. Watson Research Center},
+  year        = {1990},
+}
+
+@TechReport{daniel,
+  author      = {Joel L. Wolf and Daniel M. Dias and Philip S. Yu, Senior},
+  title       = {A Parallel Sort Merge JoinAlgorithm for Managing Data Skew},
+  institution = {IEEE TRANSACTIONS ON PARALLEL AND DISTRIBUTED SYSTEMS},
+  year        = {1993},
+}
+
+@TechReport{goetz,
+  author      = {Goetz Graefe,},
+  title       = {Sort-Merge-Join: An Idea Whose Time Has(h) Passed?},
+  institution = {Portland State University},
+  year        = {1994},
+}
+
+@TechReport{dias,
+  author      = {Joel L. Wolf and Daniel M. Dias and Philip S. Yu and John Turek},
+  title       = {An Effective Algorithm for Parallelizing Hash Joins in the Presence of Data Skew},
+  institution = {IBM T. J. Watson Research Center, Yorktown Heights, NY 10598},
+  year        = {1991},
+}
+
+@TechReport{roy,
+  author      = {Arthur M. Keller and Shaibal Roy},
+  title       = {Adaptive Parallel Hash Join in Main-Memory Databases},
+  institution = {Stanford University and Advanced Decision Systems, Computer Science Department, Shell Development Company},
+  year        = {1991},
+}
+
+@TechReport{masaru,
+  author      = {Masaru KITSUREGAWA and Shin-ichiro TSUDAKA and Miyuki NAKANO},
+  title       = {Parallel GRACE Hash Join on Shared-Everything Multiprocessor :Implementation and Performance Evaluation on Symmetry S81},
+  institution = {Institute of Industrial Science, University of Tokyo7-22-1 Roppongi, Minato-ku, Tokyo, 106 Japan},
+  year        = {1992},
+}
+
+@Electronic{omp,
+  author       = {Blaise Barney},
+  title        = {OpenMP},
+  organization = {Lawrence Livermore National Laboratory},
+  url          = {https://computing.llnl.gov/tutorials/openMP/},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
