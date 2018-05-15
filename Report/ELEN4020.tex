@@ -103,26 +103,29 @@ Johannesburg, South Africa \\
 	
 	
 \section{Design and Implementation}
+	
 	\subsection{Merge Join}
+	In the implementation of the merge join, classes were used in order to attempt to follow an object-orientated paradigm. The code is designed to function in three steeps. The first step is that it reads the first table's input data. In the second step it reads from the second file. In the third step the code then implements the join algorithm. The code works by comparing the key values of the input data and loads them into containers if the key values are the same. The code is designed to also match the data values even if the key values of the input values are duplicated, provided that the repeating keys are grouped together.
 	
 	\subsection{Hash Join}
 
 \section{Testing and Results}
 	
-
+The merge join algorithm works for input consisting of values around 25 lines or less. In the instance that one has input lines that go above a certain threshold errors occur.  Due to this, it is rendered impossible to run the code for the analysis of very large file. 
 
 
 \section{SWAT Analysis}
 	\subsection{Strengths}
 	
 	\subsection{Weaknesses}
-	
+	The merge join code crashes after a certain number of input lines of code is reached. The code also violates the DRY~(Don't Repeat Yourself) principle by having multiple classes which essentially perform the same tasks. Due to time constraints ad delays that the code for merge join is flawed and requires time to debug.
 	\subsection{Advantages}
 	
 	\subsection{Threats}
 	
 	
 \section{Future Improvements}
+The merge join code should be re-made with the use of minimal amount of classes and vectors.
 
 \section{Conclusion}
 

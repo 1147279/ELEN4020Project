@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.2.17)  15 MAY 2018 13:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6600 64-bit) (preloaded format=pdflatex 2018.2.17)  15 MAY 2018 17:28
 entering extended mode
 **./ELEN4020.tex
 (ELEN4020.tex
@@ -522,7 +522,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1{C:/Users/Uyanda/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
-] (ELEN4020.bbl)
+] (ELEN4020.bbl [2])
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -534,31 +534,33 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 132.
-[2]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 132.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 135.
+[3
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 135.
  (ELEN4020.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 132.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 132.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 135.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 135.
 Package rerunfilecheck Info: File `ELEN4020.out' has not changed.
 (rerunfilecheck)             Checksum: 24A4F9BFA7C85F1CB93503F3FB71378B;1455.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 132.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 135.
  ) 
 Here is how much of TeX's memory you used:
- 7955 strings out of 493372
- 118113 string characters out of 3139584
- 208814 words of memory out of 3000000
+ 7956 strings out of 493372
+ 118119 string characters out of 3139584
+ 210814 words of memory out of 3000000
  11308 multiletter control sequences out of 15000+200000
  42036 words of font info for 90 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 30i,11n,35p,861b,315s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 30i,11n,35p,861b,454s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
 KTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
 pe1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/ut
 mr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ELEN4020.pdf (2 pages, 66635 bytes).
+Output written on ELEN4020.pdf (3 pages, 68522 bytes).
 PDF statistics:
- 159 PDF objects out of 1000 (max. 8388607)
- 35 named destinations out of 1000 (max. 500000)
+ 163 PDF objects out of 1000 (max. 8388607)
+ 36 named destinations out of 1000 (max. 500000)
  193 words of extra memory for PDF output out of 10000 (max. 10000000)
 
