@@ -20,7 +20,7 @@ Witwatersrand, Private Bag 3, 2050, Johannesburg, South Africa}
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-The join operation concerns the combining of two different tuples on a common join attribute \cite{Yu1998}. It is important in information systems, in particular the use of databases since the join operation is the most expensive operation in database query operations in terms of time and data-intensity \cite{Mishra1992}. This project explores two different approaches to performing a join of two very large tables. The problem is described in Section \ref{prob} and the two different approaches discussed in Sections \ref{mpi} and \ref{omp}. The method of experimentation is outlined in Section \ref{desc} and the results of the experiment are analysed in Section \ref{ana}. Section \ref{conc} reviews the project and concludes this document.
+The join operation concerns the combining of two different tuples on a common join attribute \cite{Yu1998}. It is important in information systems, in particular the use of databases since the join operation is the most expensive operation in database query operations in terms of time and data-intensity \cite{Mishra1992}. This project explores two different approaches to performing a join of two very large tables. The purpose of the project are twofold, the primary task is to use parallelism to implement two different join algorithms and the secondary is to compare the algorithms’ efficiency in joining. The problem is described in Section \ref{prob} and the two different approaches discussed in Sections \ref{mpi} and \ref{omp}. The method of experimentation is outlined in Section \ref{desc} and the results of the experiment are analysed in Section \ref{ana}. Section \ref{conc} reviews the project and concludes this document.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem Description}\label{prob}
 The objective of this project is to perform an equi-join of two very large tables. An equi-join is a type of join that uses the equality operator as a basis for the join \cite{w3resource.com2018} that is if the join attribute in $R_{1}(A,B)$ is strictly equal to the join attribute in $R_{2}(A,C)$ the result of the join is inserted into a third table $R_{3}(A, B, C)$. An illustrated example can be seen in Figure \ref{fig:Equi-Join}.
@@ -38,11 +38,30 @@ The join algorithms are designed to read data from  file of a specific format an
 The OpenMP join algorithm being implemented is merge-join also known as sort-merge join~\cite{Graefe1994}. The two table are sorted by join attribute. Then the table are scanned and join attributes are compared to one another. For an equi-join, if the join attribute of one entry is strictly equal to the join attribute of the other table's entry, the entries are joined in the output table \cite{Pavlo2017,Graefe1991}. The implemented algorithm assumes that the sorting of the data has already taken place and proceeds to only perform the join algorithm under that assumption.
 
 References~\cite{Wolf1993,Wolf1990} take into account possible errors that may occur due to data skew for the merge join algorithm. According to~\cite{Wolf1993}, data skew can result in some of the processors being over-utilised and others under-utilised. Reference~\cite{Wolf1993} proposes the use of a divide-and-conquer technique as a solution to handle data skew. Reference~\cite{Wolf1990} approaches the issue of data skew in the merge algorithm by adding an extra scheduling phase. The implemented merge join does not take into account the possibility of data skew and instead relies on OpenMP's computational ability to process certain chunks of data and ability to make numerous threads~\cite{Barney2017}. This technique was chosen due to the resources available, namely a cluster, and time constraints.
+
+An overview of the implemented code can be found in Algorithm \ref{algOmp}. The program is implemented in C++ and makes use of OpenMP to implement parallelism. The ``key'' being referred to in this context is the join attribute and the ``values'' are the other two attributes.
+\begin{algorithm}
+ \KwData{Table $R_{1}(A,B)$, Table $R_{2}(A,C)$}
+ \KwResult{$R_{3}(A, B, C)$}
+	sort both tables on key\;
+	read in keys from each table and store them in vectors\;
+ \For{all key-value pairs in each vector}{
+		\If{key from $R_{1}$ == key from $R_{2}$}{
+			write key-value output to $R_{3}$\;
+		}
+	}
+
+
+ \caption{OpenMP Implementation of merge-join}
+\label{algOmp}
+\end{algorithm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MPI Join Algorithm -- Hash-Join}\label{mpi}
-A hash join can be generalised into two stages~\cite{Keller1991}, the split phase and the join phase~\cite{Kitsuregawa1992}. The reviewed literature for the hash join is also concerned about data skew. Some of the said literature include references~\cite{Wolf1990,Keller1991} and other documents. Reference~\cite{Wolf1990} addresses the issue of data skew by implementing multiple hash phases along with the use of a heuristic optimisation algorithm in order to isolate skew elements\cite{Wolf1990}.
+A hash join can be generalised into two stages~\cite{Keller1991}, the split phase and the join phase~\cite{Kitsuregawa1992}. In the split phase the hash function is used to partition the data into a number of sets and in the join phase each partition is joined and the result is sent to a common table. Hash join algorithms are considered to be the most efficient join algorithms in terms of speed \cite{Mishra1992}. 
 
-An overview of the algorithm being used is listed in Algorithm \ref{algMPI}.
+The reviewed literature for the hash join is also concerned about data skew. Some of the said literature include references~\cite{Wolf1990,Keller1991} and other documents. Reference~\cite{Wolf1990} addresses the issue of data skew by implementing multiple hash phases along with the use of a heuristic optimisation algorithm in order to isolate skew elements\cite{Wolf1990}.
+
+An overview of the algorithm being used is listed in Algorithm \ref{algMPI}. The program is implemented in C++ and makes use of MPI to send and receive messages between nodes. The hash function simply takes the sum of all the character's ASCII values to produce a unique hash value. As before, the ``key'' being referred to in this context is the join attribute and the ``value'' the other attributes.
 \begin{algorithm}
  \KwData{Table $R_{1}(A,B)$, Table $R_{2}(A,C)$}
  \KwResult{$R_{3}(A, B, C)$}
@@ -61,7 +80,7 @@ send key-value pairs of $R_{2}(A,C)$ to slave nodes in vector\;
 IN EACH SLAVE NODE:\\
 \For{all key-value pairs in each vector}{
 	\If{key from $R_{1}$ == key from $R_{2}$}{
-		write key-value output to $R_{3}$
+		write key-value output to $R_{3}$\;
 	}
 }
 
