@@ -30,10 +30,18 @@ The objective of this project is to perform an equi-join of two very large table
 	\caption{An example of equi-join between two relational tables}
 	\label{fig:Equi-Join}
 \end{figure}
-The join must be done using two different algorithms, one that is based in MPI (Message Passing Interface), and one that uses another high-level parallel programming model. The programming model chosen in this project is OpenMP. The two programmes need to be compared with one another in terms of speed-up and scalability when increasing the number of processors and nodes that the program uses. The MPI join algorithm being used is hash-join and the OpenMP join algorithm being used is merge-join. The speed-up comparison is performed by running the two programs with increasing number of processors and the scalability comparison is conducted by increasing the number of nodes the program uses in a cluster.
+The join must be done using two different algorithms, one that is based in MPI (Message Passing Interface), and one that uses another high-level parallel programming model. The programming model chosen in this project is OpenMP. The two programs need to be compared with one another in terms of speed-up and scalability when increasing the number of processors and nodes that the program uses. The speed-up comparison is performed by running the two programs with increasing number of processors and the scalability comparison is conducted by increasing the number of nodes the program uses in a cluster. Based on the literature, there are multiple join algorithms. The algorithms chosen by the authors are the hash algorithm and the merge algorithm, which form part of the equi-join family of join algorithms and are widely used~\cite{Wolf1993}.
 
+The join algorithms are designed to read data from  file of a specific format and to perform the required operations as per specific algorithm. The algorithms read data of the same file in order to be able to compare their performance. The algorithms are both implemented in C++. This allows for accurate comparisons of the algorithm performances and consequently prevents the possible time lags that may arise from the use of different programming languages. C++ was used instead of C due to the authors finding easier to use C++ under the given time constraints. Another reason that why C++ was found more favourable is that is offers more functionality than C and due to its Object Orientated Design~(OOD) capabilities and the also due to the fact that the authors are familiar with C++. These algorithms were implemented using parallelism.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{OpenMP Join Algorithm -- Merge-Join}\label{omp}
+The OpenMP join algorithm being implemented is merge-join also known as sort-merge join~\cite{Graefe1994}. The two table are sorted by join attribute. Then the table are scanned and join attributes are compared to one another. For an equi-join, if the join attribute of one entry is strictly equal to the join attribute of the other table's entry, the entries are joined in the output table \cite{Pavlo2017,Graefe1991}. The implemented algorithm assumes that the sorting of the data has already taken place and proceeds to only perform the join algorithm under that assumption.
+
+References~\cite{Wolf1993,Wolf1990} take into account possible errors that may occur due to data skew for the merge join algorithm. According to~\cite{Wolf1993}, data skew can result in some of the processors being over-utilised and others under-utilised. Reference~\cite{Wolf1993} proposes the use of a divide-and-conquer technique as a solution to handle data skew. Reference~\cite{Wolf1990} approaches the issue of data skew in the merge algorithm by adding an extra scheduling phase. The implemented merge join does not take into account the possibility of data skew and instead relies on OpenMP's computational ability to process certain chunks of data and ability to make numerous threads~\cite{Barney2017}. This technique was chosen due to the resources available, namely a cluster, and time constraints.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MPI Join Algorithm -- Hash-Join}\label{mpi}
+A hash join can be generalised into two stages~\cite{Keller1991}, the split phase and the join phase~\cite{Kitsuregawa1992}. The reviewed literature for the hash join is also concerned about data skew. Some of the said literature include references~\cite{Wolf1990,Keller1991} and other documents. Reference~\cite{Wolf1990} addresses the issue of data skew by implementing multiple hash phases along with the use of a heuristic optimisation algorithm in order to isolate skew elements\cite{Wolf1990}.
+
 An overview of the algorithm being used is listed in Algorithm \ref{algMPI}.
 \begin{algorithm}
  \KwData{Table $R_{1}(A,B)$, Table $R_{2}(A,C)$}
@@ -60,9 +68,7 @@ IN EACH SLAVE NODE:\\
  \caption{MPI Implementation of hash-join}
 \label{algMPI}
 \end{algorithm}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{OpenMP Join Algorithm -- Merge-Join}\label{omp}
-The OpenMP join algorithm being implemented is merge-join. The two table are sorted by join attribute. Then the table are scanned and join attributes are compared to one another. For an equi-join, if the join attribute of one entry is strictly equal to the join attribute of the other table's entry, the entries are joined in the output table \cite{Pavlo2017}.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Description}\label{desc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
