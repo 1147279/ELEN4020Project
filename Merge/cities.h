@@ -12,7 +12,7 @@ class cities
 public:
 	cities();
 	bool isFoundID(int cityID);
-	void addStreetName(string city);
+	void addCityName(string city);
 	void addCityID(int cityID);
 	void printCity();
 	void resetAttributes();

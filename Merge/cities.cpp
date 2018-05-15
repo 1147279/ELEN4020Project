@@ -17,7 +17,7 @@ bool cities::isFoundID(int cityID)
 
 
 
-void cities::addStreetName(string city)
+void cities::addCityName(string city)
 {
 	_city.push_back(city);
 }

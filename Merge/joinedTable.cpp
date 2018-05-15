@@ -14,10 +14,6 @@ void joinedTable::addName(string name)
 	_name = name;
 }
 
-void joinedTable::addStreetName(string street)
-{
-	_street = street;
-}
 
 void joinedTable::addCityID(int cityID)
 {
@@ -32,5 +28,5 @@ void joinedTable::addCityName(string city)
 
 void joinedTable::tableOutput()
 {
-	cout << _name << "  " << _street<< "  "<< _cityID << "  " << _city<<endl;
+	cout << _name << "  "<< _cityID << "  " << _city<<endl;
 }

@@ -1,6 +1,6 @@
-new_york 1
-cuppertino 1
-paris 1
-berlin 5
-london 5
-saarb 9
+new_york|1
+cuppertino|1
+paris|1
+berlin|5
+london|5
+saarb|9

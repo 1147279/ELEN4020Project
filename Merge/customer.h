@@ -22,12 +22,7 @@ public:
 	{
 		return _name;
 	}
-	
-	vector<string> getStreet()
-	{
-		return _street;
-	}
-	
+
 	int getNumOfElements()
 	{
 		return _name.size();
@@ -40,7 +35,6 @@ public:
 	
 private:
 	vector<string> _name;
-	vector<string> _street;
 	int _cityID;
 };
 

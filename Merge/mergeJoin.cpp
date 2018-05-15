@@ -8,30 +8,34 @@
 using namespace std;
 
 void joinTable(vector<customer>& vec1, vector<cities>& vec2, vector<joinedTable>& vec3, int index);
+int extractKey(string myStr);
+string extractValue(string myStr);
+
 
 int main (int argc, char *argv[]) 
 {
 	string name;
-	string street;
+	string myStr;
 	int cityID;
 	
 	vector<customer> customerList;
 	customer person;
 	//open file textA.txt
 	ifstream dataFile;
-	dataFile.open("textA.txt");
+	dataFile.open("Table1_1.txt");
 	int listSize = customerList.size();
 	bool isFound = false;
 	int indexFound = 0;
 	 
-	while(dataFile >> name >> street >> cityID)
+	while(dataFile >> myStr)
 	{
+		cityID = extractKey(myStr);
+		name = extractValue(myStr);
 		listSize = customerList.size();
 		
 		if(listSize == 0)
 		{
 			person.addName(name);
-			person.addStreetName(street);
 			person.addCityID(cityID);
 			customerList.push_back(person);
 			person.resetAttributes();
@@ -52,14 +56,12 @@ int main (int argc, char *argv[])
 		if(isFound == true && listSize >= 1)
 		{
 			customerList[indexFound].addName(name);
-			customerList[indexFound].addStreetName(street);
 			isFound = false;
 		}
 		else if(isFound == false && listSize >= 1)
 		{
 			person.resetAttributes();
 			person.addName(name);
-			person.addStreetName(street);
 			person.addCityID(cityID);	
 			customerList.push_back(person);
 			person.resetAttributes();
@@ -78,21 +80,23 @@ int main (int argc, char *argv[])
 	
 	//open textB.txt
 	ifstream dataFile2;
-	dataFile2.open("textB.txt");
+	dataFile2.open("Table2_1.txt");
 	
 	cities city;
 	vector<cities> cityList;
 	listSize = cityList.size();
 	
 	
-	while(dataFile2 >> street >> cityID)
+	while(dataFile2 >> myStr)
 	{
-		cout << street << "  " << cityID << endl;
+		cityID = extractKey(myStr);
+		name = extractValue(myStr);
+		cout << name << "  " << cityID << endl;
 		listSize = cityList.size();
 		
 		if(listSize == 0)
 		{
-			city.addStreetName(street);
+			city.addCityName(name);
 			city.addCityID(cityID);
 			cityList.push_back(city);
 			city.resetAttributes();
@@ -112,13 +116,13 @@ int main (int argc, char *argv[])
 		
 		if(isFound == true && listSize >= 1)
 		{
-			cityList[indexFound].addStreetName(street);
+			cityList[indexFound].addCityName(name);
 			isFound = false;
 		}
 		else if(isFound == false && listSize >= 1)
 		{
 			city.resetAttributes();
-			city.addStreetName(street);
+			city.addCityName(name);
 			city.addCityID(cityID);	
 			cityList.push_back(city);
 			city.resetAttributes();
@@ -199,7 +203,6 @@ void joinTable(vector<customer>& vec1, vector<cities>& vec2, vector<joinedTable>
 			for(int j = 0; j < size2; j++)
 			{
 				temp.addName(vec1.at(index).getName().at(i));
-				temp.addStreetName(vec1.at(index).getStreet().at(i));
 				temp.addCityID(vec1.at(index).getID());
 				temp.addCityName(vec2.at(indexFound).getCity().at(j));
 				
@@ -214,13 +217,61 @@ void joinTable(vector<customer>& vec1, vector<cities>& vec2, vector<joinedTable>
 
 
 
+int extractKey(string myStr)
+{
+	int indexFound = 0;
+	int stringSize = myStr.size();
+	
+	for(int i = 0; i < stringSize; i++)
+	{
+		if(myStr.at(i) == '|')
+			indexFound = i;
+	}
+	
+	string name = "";
+	
+	for(int i = 0; i < stringSize; i++)
+	{
+		name += myStr.at(i);
+	}
+	
+	
+	string temp;
+	
+	for(int i = indexFound+1; i < stringSize; i++)
+	{
+		temp += myStr.at(i);
+	}
+	
+	int ID = stoi(temp);
+	return ID;
+}
 
 
 
 
 
 
-
+string extractValue(string myStr)
+{
+	int indexFound = 0;
+	int stringSize = myStr.size();
+	
+	for(int i = 0; i < stringSize; i++)
+	{
+		if(myStr.at(i) == '|')
+			indexFound = i;
+	}
+	
+	string name = "";
+	
+	for(int i = 0; i < indexFound; i++)
+	{
+		name += myStr.at(i);
+	}
+	
+	return name;
+}
 
 
 
