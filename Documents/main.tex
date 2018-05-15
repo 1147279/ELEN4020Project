@@ -4,6 +4,8 @@
 \usepackage{siunitx}             %fills in si units and order of magnitudes (mm, micro)
 \usepackage[hyphens]{url}        %websites, hyphenated when longer than a line
 \usepackage{cleveref}
+\usepackage{hyperref}
+\usepackage{algorithm2e}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \title{ELEN 4020 Project - Comparison of Parallel Equi-Join using MPI and OpenMP}
@@ -32,9 +34,35 @@ The join must be done using two different algorithms, one that is based in MPI (
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{MPI Join Algorithm -- Hash-Join}\label{mpi}
+An overview of the algorithm being used is listed in Algorithm \ref{algMPI}.
+\begin{algorithm}
+ \KwData{Table $R_{1}(A,B)$, Table $R_{2}(A,C)$}
+ \KwResult{$R_{3}(A, B, C)$}
+ \For{all key-value pairs in $R_{1}$}{
+  read key\;
+	calculate hash as sum(ASCII) of key\;
+  calculate (hash\%(no. of processes - 1) + 1)\;
+ }
+send key-value pairs of $R_{1}(A,B)$ to slave nodes in vector\;
+\For{all key-value pairs in $R_{2}$}{
+  read key\;
+	calculate hash as sum(ASCII) of key\;
+  calculate (hash\%(no. of processes - 1) + 1)\;//This is to determine which slave node the key-value pair is sent to.
+ }
+send key-value pairs of $R_{2}(A,C)$ to slave nodes in vector\;
+IN EACH SLAVE NODE:\\
+\For{all key-value pairs in each vector}{
+	\If{key from $R_{1}$ == key from $R_{2}$}{
+		write key-value output to $R_{3}$
+	}
+}
+
+ \caption{MPI Implementation of hash-join}
+\label{algMPI}
+\end{algorithm}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{OpenMP Join Algorithm -- Merge-Join}\label{omp}
-The OpenMP join algorithm being implemented is merge-join. The two table are sorted by join attribute. Then the table are scanned and join attributes are compared to one another. For an equi-join, if the join attribute of one entry is strictly equal to the join attribute of the other table's entry, the entries are joined in the output table \cite{Pavlo2017}. 
+The OpenMP join algorithm being implemented is merge-join. The two table are sorted by join attribute. Then the table are scanned and join attributes are compared to one another. For an equi-join, if the join attribute of one entry is strictly equal to the join attribute of the other table's entry, the entries are joined in the output table \cite{Pavlo2017}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment Description}\label{desc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
