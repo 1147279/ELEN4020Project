@@ -1,0 +1,16 @@
+
+*.aux
+
+*.bbl
+
+*.blg
+
+*.log
+
+*.synctex
+
+*.bak
+
+*.tps
+
+*.tcp
