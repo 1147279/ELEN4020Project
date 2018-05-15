@@ -24,12 +24,12 @@ The join operation concerns the combining of two different tuples on a common jo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem Description}\label{prob}
 The objective of this project is to perform an equi-join of two very large tables. An equi-join is a type of join that uses the equality operator as a basis for the join \cite{w3resource.com2018} that is if the join attribute in $R_{1}(A,B)$ is strictly equal to the join attribute in $R_{2}(A,C)$ the result of the join is inserted into a third table $R_{3}(A, B, C)$. An illustrated example can be seen in Figure \ref{fig:Equi-Join}.
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 	\centering
-		\includegraphics[width=0.4882\textwidth]{Equi-Join.png}
+		\includegraphics[width=1.00\textwidth]{Equi-Join.png}
 	\caption{An example of equi-join between two relational tables}
 	\label{fig:Equi-Join}
-\end{figure}
+\end{figure*}
 The join must be done using two different algorithms, one that is based in MPI (Message Passing Interface), and one that uses another high-level parallel programming model. The programming model chosen in this project is OpenMP. The two programs need to be compared with one another in terms of speed-up and scalability when increasing the number of processors and nodes that the program uses. The speed-up comparison is performed by running the two programs with increasing number of processors and the scalability comparison is conducted by increasing the number of nodes the program uses in a cluster. Based on the literature, there are multiple join algorithms. The algorithms chosen by the authors are the hash algorithm and the merge algorithm, which form part of the equi-join family of join algorithms and are widely used~\cite{Wolf1993}.
 
 The join algorithms are designed to read data from  file of a specific format and to perform the required operations as per specific algorithm. The algorithms read data of the same file in order to be able to compare their performance. The algorithms are both implemented in C++. This allows for accurate comparisons of the algorithm performances and consequently prevents the possible time lags that may arise from the use of different programming languages. C++ was used instead of C due to the authors finding easier to use C++ under the given time constraints. Another reason that why C++ was found more favourable is that is offers more functionality than C and due to its Object Orientated Design~(OOD) capabilities and the also due to the fact that the authors are familiar with C++. These algorithms were implemented using parallelism.
